@@ -1,0 +1,716 @@
+,0
+0,12:08:18 From  Ibridge 360  to  Everyone:
+1,write a query to display the cities which has more population than the average population of karnataka
+2,12:08:23 From  shreyas  to  Everyone:
+3,ready sir
+4,12:10:41 From  rajeshwari khot  to  Everyone:
+5,"select state_nm, sum(city_population)"
+6,12:11:08 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+7,select state_name
+8,from state t1 inner join city t2
+9,on t1.state_id = t2.state_id
+10,group by state_name
+11,having count(city_id) > 2;
+12,12:11:13 From  Surya  to  Ibridge 360(Direct Message):
+13,select city_name from city where city_population >(
+14,"select avg(city_population) from city c, state s where c.state_id = s.state_id and"
+15,state_name = 'Karnataka')
+16,12:13:04 From  Ibridge 360  to  Everyone:
+17,"Display country_name, number_of_states, number_of_cities"
+18,12:13:29 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+19,select city_name from city where city_population > (select avg(city_population) from city inner join state on state.state_id = city.state_id where state_name = 'Karnataka') ;
+20,12:13:36 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+21,SELECT CITY_NAME
+22,FROM CITY
+23,WHERE CITY_POPULATION >(SELECT AVG(CITY_POPULATION)
+24,FROM CITY C INNER JOIN STATE S
+25,C.STATE_ID = S.STATE_ID
+26,WHERE STATE_NAME = 'kARNATAKA')
+27,12:15:01 From  sunil mali  to  Ibridge 360(Direct Message):
+28,SELECT CITY_NAME
+29,FROM CITY
+30,WHERE CITY_POPULATION >(SELECT AVG(CITY_POPULATION)
+31,"FROM CITY,STATE"
+32,WHERE CITY.STATE_ID=STATE.STATE_ID AND STATE_NM='KARNATAKA'
+33,GROUP BY STATE_NM);
+34,12:15:37 From  Ibridge 360  to  sunil mali(Direct Message):
+35,why group by in sub query
+36,12:16:04 From  shreyas  to  Ibridge 360(Direct Message):
+37,"select state_name, sum(city_population)"
+38,from state s inner join city c
+39,on s.state_id = c.state_id
+40,group by state_name;
+41,12:16:43 From  Ibridge 360  to  shreyas(Direct Message):
+42,its not correct
+43,12:16:58 From  MOHAN  to  Ibridge 360(Direct Message):
+44,-- 1 write a query to display the cities which has more population than the average population of karnataka
+45,SELECT CITY_NAME
+46,FROM CITY
+47,WHERE CITY_POPULATION > ( SELECT AVG(SUM(CITY_POPULATION))
+48,FROM CITY C INNER JOIN STATE S
+49,ON C.STATE_ID = S.STATE_ID
+50,WHERE UPPER(STATE_NAME) = 'KARNATAKA'
+51,GROUP BY STATE_NAME);
+52,12:17:06 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+53,"select c.city_nm,sum(city_population)"
+54,from city1 c inner join state1 s
+55,on c.state_id=s.state_id
+56,group by c.city_nm
+57,having sum(city_population)>(select avg(city_population)
+58,from state1 s inner join city1 c
+59,on s.state_id=c.state_id
+60,where state_nm='Karnataka');
+61,12:17:24 From  Ibridge 360  to  Everyone:
+62,"Display country_name, state_name, state_population"
+63,12:17:25 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+64,"SELECT COUNTRY_NAME,COUNT(DISTINT(STATE_ID)),COUNT(CITY_ID)FROM STATE S INNER JOIN COUNTRY C ON S.COUNTRY_ID = C.COUNTRY_ID INNER JOIN CITY CI ON CI.STATE_ID = S.STATE_ID GROUP BY COUNTRY_NAME"
+65,12:17:27 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+66,"select country_name,count(state_name),count(city_name)"
+67,from country co
+68,inner join state s on
+69,s.country_id = co.country_id
+70,inner join city c on
+71,c.state_id = s.state_id
+72,group by country_name;
+73,12:17:46 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+74,select city_name
+75,from city
+76,where city_population > (
+77,select sum(city_population)
+78,from city
+79,where state_id = (select state_id from state where state_name = 'Karnataka'));
+80,12:18:25 From  Ibridge 360  to  Tarak Mukherjee(Direct Message):
+81,"no need of joining state table in outer query, otherwise its good to go"
+82,12:18:47 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+83,ok sir
+84,12:18:58 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+85,the count of state will be wrong. why?
+86,12:19:37 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+87,sorry sir I missed distinct state name
+88,12:19:51 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+89,cant make those mistakes any more praveen
+90,12:20:07 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+91,ok sir
+92,12:21:21 From  shreyas  to  Ibridge 360(Direct Message):
+93,"select country_name, count(state_name), count(city_name)"
+94,from country c inner join state s
+95,on c.country_id = s.country_id
+96,inner join city cy on s.state_id = cy.state_id
+97,group by country_name;
+98,12:21:24 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+99,"SELECT COUNTRY_NAME,STATE_NAME,SUM(CITY_POPULATION)AS STATE_POPULATION FROM STATE S INNER JOIN COUNTRY C ON S.COUNTRY_ID = C.COUNTRY_ID INNER JOIN CITY CI ON CI.STATE_ID = S.STATE_ID GROUP BY COUNTRY_NAME,STATE_NAME"
+100,12:21:48 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+101,"2...select country_name,count(state_name) over(partition by country_name), count(city_name) over(partition by country_name)"
+102,from city c inner join state s
+103,on c.state_id = s.state_id inner join country c1
+104,on c1.country_id  = s. country_id;
+105,12:21:52 From  Ibridge 360  to  Everyone:
+106,display states which has more population than Karnataka
+107,12:21:55 From  Surya  to  Ibridge 360(Direct Message):
+108,"select country_name,state_name,sum(city_population) from country c, state s,city ci where c.country_id = s.country_id"
+109,and s.state_id = ci.state_id
+110,"group by country_name,state_name"
+111,12:22:00 From  MOHAN  to  Ibridge 360(Direct Message):
+112,"-- Display country_name, number_of_states, number_of_cities"
+113,"SELECT COUNTRY_NAME,COUNT(STATE_NAME),COUNT(CITY_NAME)"
+114,FROM COUNTRY C1 FULL JOIN STATE C2
+115,ON C1.COUNTRY_ID = C2.COUNTRY_ID FULL JOIN CITY C3
+116,ON C3.STATE_ID = C2.STATE_ID
+117,GROUP BY COUNTRY_NAME ;
+118,12:22:36 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+119,"select c.country_nm,s.state_nm,sum(city_population) as statepopulation"
+120,from country1 c inner join state1 s on c.country_id=s.country_id
+121,inner join city1 ci on s.state_id=ci.state_id
+122,"group by c.country_nm,s.state_nm;"
+123,12:23:06 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+124,sorry sair 3rd query
+125,12:23:48 From  lakshay  to  Ibridge 360(Direct Message):
+126,"select country_name,count(state_name),count(city_name) from country join state on country.country_id = state.country_id join city on state.state_id=city.state_id"
+127,group by country_name;
+128,"select country_name,state_name,sum(city_population) as state_population from country join state on country.country_id = state.country_id join city on state.state_id=city.state_id"
+129,"group by country_name,state_name;"
+130,12:23:56 From  Ibridge 360  to  Surya(Direct Message):
+131,i don't see the query for the following select from you
+132,"Display country_name, number_of_states, number_of_cities"
+133,12:24:04 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+134,"select country_name, count(t2.state_id) over (partition by t1.country_id),"
+135,count(city_id) over (partition by t2.state_id)
+136,from country t1 inner join state t2 on t1.country_id = t2.country_id
+137,inner join city t3 on t2.state_id =t3.state_id;
+138,12:24:32 From  Surya  to  Ibridge 360(Direct Message):
+139,yes sir I will send
+140,12:26:08 From  Ibridge 360  to  Everyone:
+141,"display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state"
+142,12:27:08 From  Surya  to  Ibridge 360(Direct Message):
+143,"select country_name,count(state_name) over(partition by country_name)no_of_states,count(city_name) over(partition by state_name)no_of_city_in_state"
+144,"from country c, state s,city ci"
+145,where c.country_id = s.country_id and s.state_id = ci.state_id
+146,12:27:38 From  Ibridge 360  to  Surya(Direct Message):
+147,is it necessary to use analytical queries?
+148,12:28:09 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+149,"select country_name, t3.state_name, state_pop"
+150,from
+151,"(select country_name, state_name"
+152,from country t1 inner join state t2
+153,on t1.country_id = t2.country_id) t3
+154,inner join
+155,"(select state_name, sum(city_population) as state_pop"
+156,from state t1 inner join city t2
+157,on t1.state_id = t2.state_id
+158,group by state_name) t4
+159,on t3.state_name = t4.state_name;
+160,12:28:11 From  Surya  to  Ibridge 360(Direct Message):
+161,no sir at that time I thought
+162,12:28:12 From  MOHAN  to  Ibridge 360(Direct Message):
+163,"-- 3 Display country_name, state_name, state_population"
+164,"SELECT  COUNTRY_NAME,NVL(STATE_NAME,'NO STATE'),NVL(SUM(CITY_POPULATION) OVER(PARTITION BY STATE_NAME ),0)"
+165,FROM COUNTRY C1 FULL JOIN STATE C2
+166,ON C1.COUNTRY_ID = C2.COUNTRY_ID FULL JOIN CITY C3
+167,ON C3.STATE_ID = C2.STATE_ID;
+168,12:28:41 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+169,"select state_name, sum(city_population)"
+170,from city
+171,c inner join state s on
+172,s.state_id = c.state_id
+173,group by state_name
+174,having sum(city_population) >
+175,(select sum(city_population) from city c inner join state s on s.state_id = c.state_id where state_name = 'Karnataka');
+176,12:29:35 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+177,"select state_name,sum(city_population)"
+178,from state s inner join city c
+179,on c.state_id = s.state_id
+180,group by state_name
+181,having sum(city_population) > ( select sum(city_population)
+182,from  state s inner join city c
+183,on c.state_id = s.state_id
+184,where state_name = 'Karnataka');
+185,12:30:31 From  shreyas  to  Ibridge 360(Direct Message):
+186,select state_name
+187,"from(select state_name, sum(city_population)"
+188,from state s inner join city c
+189,on s.state_id = c.state_id
+190,group by state_name
+191,having sum(city_population)>(select sum(city_population)
+192,from state s inner join city c
+193,on s.state_id = c.state_id
+194,where state_name = 'Karnataka'
+195,group by state_name));
+196,12:31:30 From  Surya  to  Ibridge 360(Direct Message):
+197,select * from
+198,"(select country_name, state_name, city_name,city_population,"
+199,dense_rank() over(partition by state_name order by city_population)r
+200,"from city ci, state s, country c"
+201,where ci.state_id = s.state_id and s.country_id = c.country_id)
+202,where r = 1;
+203,12:32:31 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+204,select t3.state_name
+205,from
+206,"(select state_name, sum(city_population) as state_pop"
+207,from state t1 inner join city t2
+208,on t1.state_id = t2.state_id
+209,group by state_name) t3
+210,where state_pop >
+211,(select sum(city_population) as state_pop
+212,from state t1 inner join city t2
+213,on t1.state_id = t2.state_id
+214,where t1.state_name = 'Karnataka'
+215,group by state_name);
+216,12:33:34 From  sunil mali  to  Ibridge 360(Direct Message):
+217,SELECT STATE_NM
+218,"FROM STATE A,CITY B"
+219,WHERE A.STATE_ID=B.STATE_ID AND B.CITY_POPULATION >(SELECT SUM(CITY_POPULATION)
+220,"FROM CITY A, STATE B"
+221,WHERE A.STATE_ID=B.STATE_ID AND B.STATE_NM='KARNATAKA'
+222,GROUP BY B.STATE_NM)
+223,12:33:46 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+224,--display states which has more population than Karnataka
+225,"select s.state_nm,sum(city_population)"
+226,from state1 s inner join city1 c
+227,on s.state_id=c.state_id
+228,group by s.state_nm
+229,having sum(city_population)>(select sum(city_population)
+230,from city1 c inner join state1 s
+231,on s.state_id=c.state_id
+232,where s.state_nm='Karnataka');
+233,12:34:38 From  sunil mali  to  Ibridge 360(Direct Message):
+234,YES SIR....WHEN IM MENTIONING THE STATE NAME IN WHERE CLAUSE...GROUP BY CLAUSE IS NOT NECESSORY
+235,12:34:39 From  shreyas  to  Ibridge 360(Direct Message):
+236,"select country_name, state_name, city_name, city_population"
+237,from country c inner join state s
+238,on c.country_id = s.country_id
+239,inner join city cy on s.state_id = cy.state_id
+240,where city_population in (select min(city_population) from city);
+241,12:35:16 From  sunil mali  to  Ibridge 360(Direct Message):
+242,because we are fetching only karnatakas data
+243,12:35:26 From  Ibridge 360  to  shreyas(Direct Message):
+244,it wont work
+245,12:35:56 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+246,"SELECT * FROM (COUNTRY_NAME,STATE_NAME,CITY_NAME,CITY_POPULATION,DENSE_RANK()OVER(PARTITION BY STATE_NAME ORDER BY CITY_POPULATION  ASC )R"
+247,FROM CITY C INNER JOIN STATE S ON C.STATE_ID =S.STATE_ID INNER JOIN COUNTRY CO ON CO.COUNTRY_ID =S.COUNTRY_ID )A WEHER A.R=1
+248,12:35:57 From  MOHAN  to  Ibridge 360(Direct Message):
+249,-- 4 display states which has more population than Karnataka
+250,SELECT STATE_NAME
+251,FROM STATE C1 INNER JOIN CITY C2
+252,ON C1.STATE_ID = C2.STATE_ID
+253,GROUP BY  STATE_NAME
+254,HAVING SUM(CITY_POPULATION) > ( SELECT SUM(CITY_POPULATION)
+255,FROM STATE C1 INNER JOIN CITY C2
+256,ON C1.STATE_ID = C2.STATE_ID
+257,WHERE UPPER(STATE_NAME) = 'KARNATAKA'
+258,GROUP BY C1.STATE_ID);
+259,12:37:08 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+260,"select country_name,state_name,city_name,city_population"
+261,from
+262,"(select country_name,state_name,city_name,city_population,dense_rank() over(partition by state_name order by city_population) rnk"
+263,from city c inner join state s
+264,on c.state_id = s.state_id inner join country c1
+265,on c1.country_id  = s. country_id)
+266,where rnk = 1;
+267,12:37:30 From  shreyas  to  Ibridge 360(Direct Message):
+268,which one sir?
+269,12:37:39 From  shreyas  to  Ibridge 360(Direct Message):
+270,last one?
+271,12:39:09 From  Ibridge 360  to  Everyone:
+272,"6. find the city_name, city_population, pop_status"
+273,pop_status = 'High' if the city_population is > avg population (across all rows)
+274,pop_status = 'Low' if the city_population is < avg population (across all records)
+275,12:40:54 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+276,1----select city_name
+277,from city c inner join state s
+278,on c.state_id = s.state_id
+279,where city_population > (select avg(city_population)
+280,from city c inner join state s
+281,on c.state_id = s.state_id
+282,where state_name = 'Karnataka')
+283,12:41:07 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+284,"select country_name,state_name,city_name,city_population"
+285,from
+286,"(select country_name,state_name,city_name,city_population,dense_rank()over(partition by country_name,state_name order by city_population)r"
+287,from city ci
+288,inner join state s on
+289,ci.state_id = s.state_id
+290,inner join country c on
+291,s.country_id = c.country_id
+292,)
+293,where r = 1;
+294,12:41:24 From  Surya  to  Ibridge 360(Direct Message):
+295,"select city_name,city_population,"
+296,case when city_population>(select avg(city_population) from city)
+297,then 'High' else 'low'end status
+298,from city;
+299,12:41:37 From  Ibridge 360  to  Nitin Ajay(Direct Message):
+300,"select country_name, t3.state_name, state_pop"
+301,from
+302,"(select country_name, state_name"
+303,from country t1 inner join state t2
+304,on t1.country_id = t2.country_id) t3
+305,inner join
+306,"(select state_name, sum(city_population) as state_pop"
+307,from state t1 inner join city t2
+308,on t1.state_id = t2.state_id
+309,group by state_name) t4
+310,on t3.state_name = t4.state_name;
+311,too complicated to get the answer
+312,12:42:01 From  Ibridge 360  to  Nitin Ajay(Direct Message):
+313,follow the order in which you write / think about writing queries
+314,12:42:58 From  Ibridge 360  to  shreyas(Direct Message):
+315,"select country_name, state_name, city_name, city_population"
+316,from country c inner join state s
+317,on c.country_id = s.country_id
+318,inner join city cy on s.state_id = cy.state_id
+319,where city_population in (select min(city_population) from city);
+320,this will give only the city which has the least population out of all the citites. read my question again
+321,12:43:56 From  Ibridge 360  to  SASIKUMAR(Direct Message):
+322,any other way of writing this query -- it looks good
+323,12:44:52 From  shreyas  to  Ibridge 360(Direct Message):
+324,"select country_name, state_name, city_name, city_population"
+325,from country c inner join state s
+326,on c.country_id = s.country_id
+327,inner join city cy on s.state_id = cy.state_id
+328,where city_population in (select min(city_population) from city)
+329,12:44:58 From  MOHAN  to  Ibridge 360(Direct Message):
+330,"-- 5 display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state"
+331,"SELECT COUNTRY_NAME,NVL(STATE_NAME,'NO STATE'),CITY_NAME,CITY_POPULATION"
+332,FROM COUNTRY C1 INNER JOIN STATE C2
+333,ON C1.COUNTRY_ID = C2.COUNTRY_ID INNER JOIN CITY C3
+334,ON C3.STATE_ID = C2.STATE_ID
+335,"WHERE (CITY_POPULATION,C2.STATE_ID) IN (SELECT MIN(CITY_POPULATION),C1.STATE_ID"
+336,FROM CITY C1 INNER JOIN STATE C2
+337,ON C1.STATE_ID = C2.STATE_ID
+338,GROUP BY C1.STATE_ID );
+339,12:45:34 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+340,"select country_name, state_name, city_name, city_population"
+341,from country t1 inner join state t2 on t1.country_id = t2.country_id
+342,inner join city t3 on t2.state_id = t3.state_id
+343,where city_population in
+344,(select min(city_population) as min_city_pop
+345,from city t1 inner join state t2
+346,on t1.state_id = t2.state_id
+347,group by state_name);\
+348,12:45:40 From  shreyas  to  Ibridge 360(Direct Message):
+349,"select country_name, state_name, city_name, city_population"
+350,from country c inner join state s
+351,on c.country_id = s.country_id
+352,inner join city cy on s.state_id = cy.state_id
+353,where city_population in (select min(city_population) from city)group by state_name;
+354,12:45:50 From  shreyas  to  Ibridge 360(Direct Message):
+355,no wcorrect sir?
+356,12:46:24 From  Ibridge 360  to  shreyas(Direct Message):
+357,"nope, i see some syntax errors as well"
+358,12:46:48 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+359,"--display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state"
+360,"select c.country_nm,s.state_nm,c.city_nm,c.city_population from(select c.country_nm,s.state_nm,c.city_nm,c.city_population,dense_rank over (partition by city_nm order by min(sum(city_population)) rnk"
+361,from country1 c inner join state1 s on c.country_id=s.country_id
+362,inner join city1 ci on s.state_id=ci.state_id)
+363,"group by c.country_nm,c.city_nm,s.state_population);"
+364,12:48:09 From  Ibridge 360  to  Tarak Mukherjee(Direct Message):
+365,"--display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state"
+366,"select c.country_nm,s.state_nm,c.city_nm,c.city_population from(select c.country_nm,s.state_nm,c.city_nm,c.city_population,dense_rank over (partition by city_nm order by min(sum(city_population)) rnk"
+367,from country1 c inner join state1 s on c.country_id=s.country_id
+368,inner join city1 ci on s.state_id=ci.state_id)
+369,"group by c.country_nm,c.city_nm,s.state_population);"
+370,"not sure about the query, why group by"
+371,12:48:10 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+372,"select city_name,city_population,(case when city_population > (select avg(city_population) from city) then 'high' else 'low' end) pop_status"
+373,from city;
+374,12:48:33 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+375,what is the type of query is this?
+376,12:49:17 From  Ibridge 360  to  Surya(Direct Message):
+377,what is the type of query is this?
+378,12:49:30 From  Ibridge 360  to  Surya(Direct Message):
+379,"select city_name,city_population,"
+380,case when city_population>(select avg(city_population) from city)
+381,then 'High' else 'low'end status
+382,from city;
+383,12:49:36 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+384,in first query there is avg instead of sum sir...
+385,pls ignore the typo mistake
+386,12:50:05 From  Ibridge 360  to  Surya(Direct Message):
+387,how many times this query executes
+388,select avg(city_population) from city
+389,12:50:10 From  Ibridge 360  to  Surya(Direct Message):
+390,any other way you can solve this
+391,12:50:11 From  MOHAN  to  Ibridge 360(Direct Message):
+392,"-- 6. find the city_name, city_population, pop_status"
+393,--   pop_status = 'High' if the city_population is > avg population (across all rows)
+394,--   pop_status = 'Low' if the city_population is < avg population (across all records)
+395,"SELECT CITY_NAME,CITY_POPULATION,'HIGH' AS POP_SATAUS"
+396,FROM CITY
+397,WHERE CITY_POPULATION > (SELECT AVG(CITY_POPULATION)
+398,FROM CITY)
+399,UNION ALL
+400,"SELECT CITY_NAME,CITY_POPULATION,'LOW' AS POP_SATAUS"
+401,FROM CITY
+402,WHERE CITY_POPULATION < (SELECT AVG(CITY_POPULATION)
+403,FROM CITY);
+404,12:50:12 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+405,"select city_name,city_population,case when city_population > (select avg(city_population) from city) then 'High'"
+406,when city_population < (select avg(city_population) from city) then 'Low'
+407,"end ""pop_status"""
+408,from city;
+409,12:50:33 From  shreyas  to  Ibridge 360(Direct Message):
+410,"ans6)---select city_name, city_population, 'High' as population_status"
+411,from city
+412,where city_population >All (select avg(city_population) from city group by city_name)
+413,union all
+414,"select city_name, city_population, 'Low' as population_status"
+415,from city
+416,where city_population <All (select avg(city_population) from city group by city_name);
+417,12:50:39 From  Surya  to  Ibridge 360(Direct Message):
+418,ok sir I use with clause give 40 seconds
+419,12:51:24 From  Nitin Ajay  to  Everyone:
+420,5 sent
+421,12:51:28 From  Nitin Ajay  to  Everyone:
+422,working on 6th
+423,12:51:29 From  MOHAN  to  Everyone:
+424,6
+425,12:51:34 From  Tarak Mukherjee  to  Everyone:
+426,4 queries sent
+427,12:51:35 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+428,5 QUERY
+429,12:51:36 From  Surya  to  Ibridge 360(Direct Message):
+430,is it necessary to use analytical queries?(Instead of analytical)
+431,with
+432,"t as (select country_name,count(1)no_of_state from country c, state s where c.country_id = s.country_id group by country_name),"
+433,"t1 as (select country_name,count(1)no_of_cities_in_cntry from country c, state s,city ci"
+434,where c.country_id = s.country_id and s.state_id = ci.state_id group by country_name)
+435,"select * from t,t1 where t.country_name = t1.country_name;"
+436,12:51:36 From  Ibridge 360  to  Everyone:
+437,6 -- how many queries -- confidence on your queries (1..5)
+438,12:51:53 From  kinjal chowdhury  to  Ibridge 360(Direct Message):
+439,--write a query to display the cities
+440,--which has more population than the average
+441,--population of karnataka
+442,---1.
+443,select city_name
+444,from city ct inner join state s
+445,on ct.state_id=s.state_id
+446,where ct.city_population>(select avg(city_population)
+447,from city
+448,where city_name='karnataka');
+449,"----Display country_name, number_of_states,"
+450,---number_of_cities
+451,---2.
+452,"select country_name,count(s.country_id),count(ct.state_id)"
+453,from country c inner join state s
+454,on c.country_id=s.country_id
+455,inner join city ct
+456,on ct.state_id=s.state_id
+457,group by country_name;
+458,--3.
+459,"----Display country_name, state_name, state_population"
+460,"select country_name,state_name,sum(city_population)over(partition by state_name)"
+461,from country c inner join state s
+462,on c.country_id=s.country_id
+463,inner join city ct
+464,on ct.state_id=s.state_id;
+465,---4.display states which has more population than Karnataka
+466,select state_name
+467,from city ct inner join state s
+468,on ct.state_id=s.state_id
+469,group by state_name
+470,having sum(ct.city_population)>(select sum(ct.city_population)
+471,fro
+472,12:52:02 From  Nitin Ajay  to  Everyone:
+473,5 sent
+474,1 left
+475,confidence level 4.5
+476,12:52:03 From  sunil mali  to  Ibridge 360(Direct Message):
+477,"SELECT T1.STATE_COUNT,T2.CITY_COUNT,T3.COUNTRY_NAME"
+478,"FROM (SELECT COUNT(STATE_NM) STATE_COUNT,COUNTRY_ID"
+479,FROM STATE
+480,"GROUP BY COUNTRY_ID) T1 ,(SELECT COUNT(CITY_NAME) CITY_COUNT,STATE_ID"
+481,FROM CITY
+482,"GROUP BY STATE_ID) T2,COUNTRY T3,STATE T4"
+483,WHERE T1.COUNTRY_ID=T3.COUNTRY_ID AND T2.STATE_ID=T4.STATE_ID
+484,12:52:08 From  lakshay  to  Ibridge 360(Direct Message):
+485,"select s.state_name,sum(city_population)"
+486,from state s inner join city c
+487,on s.state_id=c.state_id
+488,group by s.state_name
+489,having sum(city_population)>(select sum(city_population)
+490,from city c inner join state s
+491,on s.state_id=c.state_id
+492,where s.state_name='Karnataka');
+493,12:52:22 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+494,1)
+495,select city_name from city
+496,"where city_population > (select avg(city_population) from city c,state s"
+497,where c.state_id=s.state_id and state_name='Karnataka');
+498,12:52:33 From  Ibridge 360  to  kinjal chowdhury(Direct Message):
+499,"----Display country_name, state_name, state_population"
+500,"select country_name,state_name,sum(city_population)over(partition by state_name)"
+501,from country c inner join state s
+502,on c.country_id=s.country_id
+503,inner join city ct
+504,on ct.state_id=s.state_id;
+505,do we need analytical queries to solve this?
+506,12:52:41 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+507,2)
+508,"select c.country_name,count(s.state_id),count(ci.city_id)"
+509,"from country c,state s,city ci"
+510,where c.country_id=s.state_id and s.state_id=ci.state_id
+511,group by c.country_name;
+512,12:52:51 From  SASIKUMAR  to  Everyone:
+513,"I completed all the questions ,it took time to understand the question .that is the only thing."
+514,12:52:56 From  Tarak Mukherjee  to  Everyone:
+515,4 sent 2 left confidence level- 4
+516,12:52:57 From  Surya  to  Ibridge 360(Direct Message):
+517,with t as(select avg(city_population)average from city)
+518,"select city_name,city_population,"
+519,case when city_population> t.average
+520,then 'High' else 'low'end status
+521,"from city,t;"
+522,12:53:06 From  Surya  to  Ibridge 360(Direct Message):
+523,can I use like this sir?
+524,12:53:07 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+525,3)
+526,"select c.country_name,s.state_name,sum(ci.city_population)"
+527,"from country c,state s,city ci"
+528,where c.country_id=s.state_id and s.state_id=ci.state_id
+529,"group by c.country_name,s.state_name;"
+530,12:53:28 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+531,4)
+532,"select state_name,sum(city_population) from"
+533,"state state s,city ci"
+534,where s.state_id=ci.state_id
+535,group by state_name
+536,having sum(city_population)>(select sum(city_population)
+537,"state state s,city ci"
+538,where s.state_id=ci.state_id and state_name='Karnataka'
+539,group by state_name);
+540,12:53:54 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+541,5)
+542,select * from
+543,"(select c.country_name.s.state_name,ci.city_name,densed_rank() over(partition by c.country_name order by ci.city_population asc)rn"
+544,"from country c,state s,city ci"
+545,where c.country_id=s.country_id and s.state_id=ci.state_id
+546,"group by c.country_name.s.state_name,ci.city_name)"
+547,where rn=1;
+548,12:54:08 From  rajeshwari khot  to  Everyone:
+549,--1)write a query to display the cities which has more population than the average population of karnataka
+550,"select state_name,sum(city_population)"
+551,from state s inner join city c
+552,on s.state_id=c.city_id)T1
+553,Inner join
+554,"select state_name,avg(city_population)"
+555,from state s inner join city c
+556,on s.state_id=c.city_id)T2
+557,on T1.state_name=T2.state_name
+558,where sum(city_population)>(select avg(population) from city
+559,where state_name='karnataka');
+560,"--2)Display country_name, number_of_states, number_of_cities"
+561,"select country_name,count(state_name),count(city_name)"
+562,from country c
+563,join city cs
+564,on cs.country_id=c.country_id
+565,join state s
+566,s.state_id=cs.state_id
+567,"--3)Display country_name, state_name, state_population"
+568,"select country_name,state_name,sum(city_population)as state_population"
+569,from city c inner join state s
+570,on s.state_id=c.state_id
+571,"group by country_name,state_name;"
+572,12:54:10 From  Khaidem Jimmy  to  Everyone:
+573,5 sent working on 6
+574,12:54:19 From  MOHAN  to  Everyone:
+575,6 QNS ==> 6 SOLVED . CONFIDENT LEVEL - 4.5
+576,12:54:21 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+577,"select city_nm,city_population,case when city_population > (select avg(city_population) from city1) then 'High'"
+578,when city_population < (select avg(city_population) from city1) then 'Low'
+579,"end ""pop_status"""
+580,from city1;
+581,12:54:24 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+582,6th query
+583,12:54:45 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+584,5 sent working 1
+585,12:54:53 From  Tarak Mukherjee  to  Everyone:
+586,5 sent
+587,12:54:57 From  Tarak Mukherjee  to  Everyone:
+588,working on 1
+589,12:55:25 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+590,"select city_name, city_population, case when city_population > (select avg(city_population) from city) then 'High'"
+591,when city_population < (select avg(city_population) from city) then 'Low' end as pop_status
+592,from city;
+593,12:55:59 From  Nitin Ajay  to  Everyone:
+594,6 sent
+595,confidence level 4.5
+596,12:56:42 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+597,--1)write a query to display the cities which has more population than the average population of karnataka
+598,"select state_name,sum(city_population)"
+599,from state s inner join city c
+600,on s.state_id=c.city_id)T1
+601,Inner join
+602,"select state_name,avg(city_population)"
+603,from state s inner join city c
+604,on s.state_id=c.city_id)T2
+605,on T1.state_name=T2.state_name
+606,where sum(city_population)>(select avg(population) from city
+607,where state_name='karnataka');
+608,"--2)Display country_name, number_of_states, number_of_cities"
+609,"select country_name,count(state_name),count(city_name)"
+610,from country c
+611,join city cs
+612,on cs.country_id=c.country_id
+613,join state s
+614,s.state_id=cs.state_id
+615,"--3)Display country_name, state_name, state_population"
+616,"select country_name,state_name,sum(city_population)as state_population"
+617,from city c inner join state s
+618,on s.state_id=c.state_id
+619,"group by country_name,state_name;"
+620,12:56:46 From  sunil mali  to  Ibridge 360(Direct Message):
+621,"select country_name,state_nm,city_name,city_population"
+622,"from(select country_name,state_nm,city_name,city_population,dense_rank() over(partition by state_nm order by city_population) rnk"
+623,"from country a,state b,city c"
+624,where a.country_id=b.country_id and b.state_id=c.state_id)
+625,where rnk = 1;
+626,12:56:54 From  Tarak Mukherjee  to  Everyone:
+627,"order- simple , subquery,joins,analytical query,derived query"
+628,12:57:01 From  lakshay  to  Ibridge 360(Direct Message):
+629,-----------------5----------------
+630,12:57:06 From  lakshay  to  Ibridge 360(Direct Message):
+631,"select country_name,state_name,city_name,city_population"
+632,"from(select country_name,state_name,city_name,city_population,dense_rank() over(partition by state_name order by city_population) rank from city c inner join state s"
+633,on c.state_id = s.state_id inner join country c1
+634,on c1.country_id  = s. country_id)
+635,where rank = 1;
+636,-------------------
+637,12:57:27 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+638,--4)display states which has more population than Karnataka
+639,"select state_name,sum(city_population)as state_population"
+640,from city c inner join state s
+641,on s.state_id=c.state_id
+642,where sum(city_population)>  (select sum(city_population) from city
+643,where state_name='karnataka')
+644,group by state_name
+645,"--5)display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state"
+646,"select * from (country_name,state_name,city_name,city_population"
+647,dense_rank() over (partition by state_name order by city_population asc) R1
+648,from city c inner state s
+649,on  s.state_id=c.state_id
+650,join country cs
+651,on cs.country_id=s.country_id)A
+652,where A.R1=1;
+653,12:57:39 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+654,"--6) find the city_name, city_population, pop_status pop_status = 'High' if the city_population is > avg population (across all rows) pop_status = 'Low' if the city_population is < avg population (across all records)"
+655,"select city_name,city_population,avg(city_population)"
+656,case when city_population>avg(city_population) then 'High'
+657,when city_population<avg(city_population) then 'Low'
+658,end as 'pop_status'
+659,from city
+660,"group by city_name,city_population;"
+661,12:58:07 From  Nitin Ajay  to  Everyone:
+662,simple
+663,subquery
+664,joins
+665,aggregated
+666,analytical
+667,corelated
+668,derived
+669,set
+670,12:58:10 From  rajeshwari khot  to  Everyone:
+671,analytical query
+672,12:59:09 From  Tarak Mukherjee  to  Everyone:
+673,"order- simple , subquery,aggregated,joins,analytical query,derived query,set,correlated"
+674,12:59:21 From  lakshay  to  Ibridge 360(Direct Message):
+675,-------------------------------6-------------------------
+676,"select city_name,city_population,case when city_population > (select avg(city_population) from city) then 'HIGH'"
+677,"when city_population < (select avg(city_population) from city) then 'LOW' end ""pop_status"""
+678,from city;
+679,12:59:42 From  MOHAN  to  Everyone:
+680,"1.simple , 2.sub ,3.corelated sub , 4.join , 5.aggregated , 6.derived ,7.set ,  8.analytic"
+681,12:59:49 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+682,"simple, subquery, joins, aggregated, analytical, derived, corelated, set operater"
+683,13:00:26 From  lakshay  to  Ibridge 360(Direct Message):
+684,----------------------1------------------------
+685,select city_name from city c inner join state s
+686,on c.state_id = s.state_id  where city_population > (select avg(city_population)
+687,from city c inner join state s
+688,on c.state_id = s.state_id
+689,where state_name = 'Karnataka')
+690,13:00:32 From  shreyas  to  Ibridge 360(Direct Message):
+691,select city_name
+692,from city
+693,where city_population > (select avg(city_population) as city_sum
+694,from state s inner join city c
+695,on s.state_id = c.state_id
+696,where state_name = 'Karnataka'
+697,group by state_name)
+698,;
+699,13:00:42 From  SASIKUMAR  to  Everyone:
+700,1.simple query 2.sub query 3. joins 4.aggregated query 5. co related sub query  6.set operator 7.derived table  8.analytical query
+701,13:01:32 From  lakshay  to  Ibridge 360(Direct Message):
+702,6 queries
+703,confidence level:- 4
+704,13:03:25 From  shreyas  to  Ibridge 360(Direct Message):
+705,quieries wrote -6
+706,13:03:38 From  shreyas  to  Ibridge 360(Direct Message):
+707,confidence- 4
+708,13:03:56 From  shreyas  to  Ibridge 360(Direct Message):
+709,total questions 6
+710,13:04:00 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+711,"select country_name,count(state_name) over(partition by country_name), count(city_name) over(partition by country_name)"
+712,from city c inner join state s
+713,on c.state_id = s.state_id inner join country c1
+714,on c1.country_id  = s. country_id;

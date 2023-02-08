@@ -1,0 +1,739 @@
+12:08:18 From  Ibridge 360  to  Everyone:
+	write a query to display the cities which has more population than the average population of karnataka
+12:08:23 From  shreyas  to  Everyone:
+	ready sir
+12:10:41 From  rajeshwari khot  to  Everyone:
+	select state_nm, sum(city_population)
+12:11:08 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select state_name
+	from state t1 inner join city t2
+	on t1.state_id = t2.state_id
+	group by state_name
+	having count(city_id) > 2;
+12:11:13 From  Surya  to  Ibridge 360(Direct Message):
+	select city_name from city where city_population >(
+	    select avg(city_population) from city c, state s where c.state_id = s.state_id and 
+	    state_name = 'Karnataka')
+12:13:04 From  Ibridge 360  to  Everyone:
+	Display country_name, number_of_states, number_of_cities
+12:13:29 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	select city_name from city where city_population > (select avg(city_population) from city inner join state on state.state_id = city.state_id where state_name = 'Karnataka') ;
+12:13:36 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	SELECT CITY_NAME
+	FROM CITY
+	WHERE CITY_POPULATION >(SELECT AVG(CITY_POPULATION)
+				FROM CITY C INNER JOIN STATE S
+				C.STATE_ID = S.STATE_ID
+				WHERE STATE_NAME = 'kARNATAKA')
+12:15:01 From  sunil mali  to  Ibridge 360(Direct Message):
+	SELECT CITY_NAME
+	FROM CITY
+	WHERE CITY_POPULATION >(SELECT AVG(CITY_POPULATION)
+	FROM CITY,STATE
+	WHERE CITY.STATE_ID=STATE.STATE_ID AND STATE_NM='KARNATAKA'
+	GROUP BY STATE_NM);
+12:15:37 From  Ibridge 360  to  sunil mali(Direct Message):
+	why group by in sub query
+12:16:04 From  shreyas  to  Ibridge 360(Direct Message):
+	select state_name, sum(city_population)
+	from state s inner join city c
+	on s.state_id = c.state_id
+	group by state_name;
+12:16:43 From  Ibridge 360  to  shreyas(Direct Message):
+	its not correct
+12:16:58 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- 1 write a query to display the cities which has more population than the average population of karnataka
+	SELECT CITY_NAME
+	FROM CITY
+	WHERE CITY_POPULATION > ( SELECT AVG(SUM(CITY_POPULATION))
+	                        FROM CITY C INNER JOIN STATE S
+	                        ON C.STATE_ID = S.STATE_ID
+	                        WHERE UPPER(STATE_NAME) = 'KARNATAKA'
+	                        GROUP BY STATE_NAME);
+12:17:06 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	select c.city_nm,sum(city_population)
+	from city1 c inner join state1 s
+	on c.state_id=s.state_id
+	group by c.city_nm
+	having sum(city_population)>(select avg(city_population)
+	from state1 s inner join city1 c
+	on s.state_id=c.state_id
+	where state_nm='Karnataka');
+12:17:24 From  Ibridge 360  to  Everyone:
+	Display country_name, state_name, state_population
+12:17:25 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	SELECT COUNTRY_NAME,COUNT(DISTINT(STATE_ID)),COUNT(CITY_ID)FROM STATE S INNER JOIN COUNTRY C ON S.COUNTRY_ID = C.COUNTRY_ID INNER JOIN CITY CI ON CI.STATE_ID = S.STATE_ID GROUP BY COUNTRY_NAME
+12:17:27 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	select country_name,count(state_name),count(city_name)
+	from country co
+	inner join state s on 
+	s.country_id = co.country_id
+	inner join city c on
+	c.state_id = s.state_id 
+	group by country_name;
+12:17:46 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select city_name
+	from city
+	where city_population > (
+	select sum(city_population)
+	from city
+	where state_id = (select state_id from state where state_name = 'Karnataka'));
+12:18:25 From  Ibridge 360  to  Tarak Mukherjee(Direct Message):
+	no need of joining state table in outer query, otherwise its good to go
+12:18:47 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	ok sir
+12:18:58 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+	the count of state will be wrong. why?
+12:19:37 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	sorry sir I missed distinct state name
+12:19:51 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+	cant make those mistakes any more praveen
+12:20:07 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	ok sir
+12:21:21 From  shreyas  to  Ibridge 360(Direct Message):
+	select country_name, count(state_name), count(city_name)
+	from country c inner join state s
+	on c.country_id = s.country_id
+	inner join city cy on s.state_id = cy.state_id
+	group by country_name;
+12:21:24 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	SELECT COUNTRY_NAME,STATE_NAME,SUM(CITY_POPULATION)AS STATE_POPULATION FROM STATE S INNER JOIN COUNTRY C ON S.COUNTRY_ID = C.COUNTRY_ID INNER JOIN CITY CI ON CI.STATE_ID = S.STATE_ID GROUP BY COUNTRY_NAME,STATE_NAME
+12:21:48 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+	2...select country_name,count(state_name) over(partition by country_name), count(city_name) over(partition by country_name)
+	from city c inner join state s
+	on c.state_id = s.state_id inner join country c1
+	on c1.country_id  = s. country_id;
+12:21:52 From  Ibridge 360  to  Everyone:
+	display states which has more population than Karnataka
+12:21:55 From  Surya  to  Ibridge 360(Direct Message):
+	select country_name,state_name,sum(city_population) from country c, state s,city ci where c.country_id = s.country_id 
+	and s.state_id = ci.state_id
+	group by country_name,state_name
+12:22:00 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- Display country_name, number_of_states, number_of_cities
+	SELECT COUNTRY_NAME,COUNT(STATE_NAME),COUNT(CITY_NAME)
+	FROM COUNTRY C1 FULL JOIN STATE C2
+	ON C1.COUNTRY_ID = C2.COUNTRY_ID FULL JOIN CITY C3
+	ON C3.STATE_ID = C2.STATE_ID
+	GROUP BY COUNTRY_NAME ;
+12:22:36 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	select c.country_nm,s.state_nm,sum(city_population) as statepopulation
+	from country1 c inner join state1 s on c.country_id=s.country_id
+	inner join city1 ci on s.state_id=ci.state_id
+	group by c.country_nm,s.state_nm;
+12:23:06 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	sorry sair 3rd query
+12:23:48 From  lakshay  to  Ibridge 360(Direct Message):
+	select country_name,count(state_name),count(city_name) from country join state on country.country_id = state.country_id join city on state.state_id=city.state_id
+	group by country_name;
+	
+	select country_name,state_name,sum(city_population) as state_population from country join state on country.country_id = state.country_id join city on state.state_id=city.state_id
+	group by country_name,state_name;
+12:23:56 From  Ibridge 360  to  Surya(Direct Message):
+	i don't see the query for the following select from you
+	
+	Display country_name, number_of_states, number_of_cities
+12:24:04 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select country_name, count(t2.state_id) over (partition by t1.country_id), 
+	            count(city_id) over (partition by t2.state_id)
+	from country t1 inner join state t2 on t1.country_id = t2.country_id
+	inner join city t3 on t2.state_id =t3.state_id;
+12:24:32 From  Surya  to  Ibridge 360(Direct Message):
+	yes sir I will send
+12:26:08 From  Ibridge 360  to  Everyone:
+	display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state
+12:27:08 From  Surya  to  Ibridge 360(Direct Message):
+	select country_name,count(state_name) over(partition by country_name)no_of_states,count(city_name) over(partition by state_name)no_of_city_in_state
+	from country c, state s,city ci
+	where c.country_id = s.country_id and s.state_id = ci.state_id
+12:27:38 From  Ibridge 360  to  Surya(Direct Message):
+	is it necessary to use analytical queries?
+12:28:09 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select country_name, t3.state_name, state_pop
+	from
+	(select country_name, state_name
+	from country t1 inner join state t2
+	on t1.country_id = t2.country_id) t3
+	inner join
+	(select state_name, sum(city_population) as state_pop
+	from state t1 inner join city t2
+	on t1.state_id = t2.state_id
+	group by state_name) t4
+	
+	on t3.state_name = t4.state_name;
+12:28:11 From  Surya  to  Ibridge 360(Direct Message):
+	no sir at that time I thought
+12:28:12 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- 3 Display country_name, state_name, state_population
+	SELECT  COUNTRY_NAME,NVL(STATE_NAME,'NO STATE'),NVL(SUM(CITY_POPULATION) OVER(PARTITION BY STATE_NAME ),0)
+	FROM COUNTRY C1 FULL JOIN STATE C2
+	ON C1.COUNTRY_ID = C2.COUNTRY_ID FULL JOIN CITY C3
+	ON C3.STATE_ID = C2.STATE_ID;
+12:28:41 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	select state_name, sum(city_population)
+	from city
+	c inner join state s on 
+	s.state_id = c.state_id
+	group by state_name 
+	having sum(city_population) >
+	(select sum(city_population) from city c inner join state s on s.state_id = c.state_id where state_name = 'Karnataka');
+12:29:35 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+	select state_name,sum(city_population)
+	from state s inner join city c
+	on c.state_id = s.state_id
+	group by state_name
+	having sum(city_population) > ( select sum(city_population)
+	                                from  state s inner join city c
+	                                on c.state_id = s.state_id
+	                                where state_name = 'Karnataka');
+12:30:31 From  shreyas  to  Ibridge 360(Direct Message):
+	select state_name
+	from(select state_name, sum(city_population)
+	from state s inner join city c
+	on s.state_id = c.state_id
+	group by state_name
+	having sum(city_population)>(select sum(city_population)
+	from state s inner join city c
+	on s.state_id = c.state_id
+	where state_name = 'Karnataka'
+	group by state_name));
+12:31:30 From  Surya  to  Ibridge 360(Direct Message):
+	select * from
+	(select country_name, state_name, city_name,city_population,
+	dense_rank() over(partition by state_name order by city_population)r
+	from city ci, state s, country c
+	where ci.state_id = s.state_id and s.country_id = c.country_id)
+	where r = 1;
+12:32:31 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select t3.state_name
+	from 
+	(select state_name, sum(city_population) as state_pop
+	from state t1 inner join city t2
+	on t1.state_id = t2.state_id
+	group by state_name) t3
+	
+	where state_pop > 
+	(select sum(city_population) as state_pop
+	from state t1 inner join city t2
+	on t1.state_id = t2.state_id
+	where t1.state_name = 'Karnataka'
+	group by state_name);
+12:33:34 From  sunil mali  to  Ibridge 360(Direct Message):
+	SELECT STATE_NM
+	FROM STATE A,CITY B
+	WHERE A.STATE_ID=B.STATE_ID AND B.CITY_POPULATION >(SELECT SUM(CITY_POPULATION)
+	FROM CITY A, STATE B
+	WHERE A.STATE_ID=B.STATE_ID AND B.STATE_NM='KARNATAKA'
+	GROUP BY B.STATE_NM)
+12:33:46 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	--display states which has more population than Karnataka
+	
+	select s.state_nm,sum(city_population)
+	from state1 s inner join city1 c
+	on s.state_id=c.state_id
+	group by s.state_nm
+	having sum(city_population)>(select sum(city_population)
+	from city1 c inner join state1 s
+	on s.state_id=c.state_id
+	where s.state_nm='Karnataka');
+12:34:38 From  sunil mali  to  Ibridge 360(Direct Message):
+	YES SIR....WHEN IM MENTIONING THE STATE NAME IN WHERE CLAUSE...GROUP BY CLAUSE IS NOT NECESSORY
+12:34:39 From  shreyas  to  Ibridge 360(Direct Message):
+	select country_name, state_name, city_name, city_population
+	from country c inner join state s
+	on c.country_id = s.country_id
+	inner join city cy on s.state_id = cy.state_id
+	where city_population in (select min(city_population) from city);
+12:35:16 From  sunil mali  to  Ibridge 360(Direct Message):
+	because we are fetching only karnatakas data
+12:35:26 From  Ibridge 360  to  shreyas(Direct Message):
+	it wont work
+12:35:56 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	SELECT * FROM (COUNTRY_NAME,STATE_NAME,CITY_NAME,CITY_POPULATION,DENSE_RANK()OVER(PARTITION BY STATE_NAME ORDER BY CITY_POPULATION  ASC )R 
+	FROM CITY C INNER JOIN STATE S ON C.STATE_ID =S.STATE_ID INNER JOIN COUNTRY CO ON CO.COUNTRY_ID =S.COUNTRY_ID )A WEHER A.R=1
+12:35:57 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- 4 display states which has more population than Karnataka
+	SELECT STATE_NAME
+	FROM STATE C1 INNER JOIN CITY C2
+	ON C1.STATE_ID = C2.STATE_ID
+	GROUP BY  STATE_NAME
+	HAVING SUM(CITY_POPULATION) > ( SELECT SUM(CITY_POPULATION)
+	                                FROM STATE C1 INNER JOIN CITY C2
+	                                ON C1.STATE_ID = C2.STATE_ID
+	                                WHERE UPPER(STATE_NAME) = 'KARNATAKA'
+	                                GROUP BY C1.STATE_ID);
+12:37:08 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+	select country_name,state_name,city_name,city_population
+	from
+	    (select country_name,state_name,city_name,city_population,dense_rank() over(partition by state_name order by city_population) rnk
+	    from city c inner join state s
+	    on c.state_id = s.state_id inner join country c1
+	    on c1.country_id  = s. country_id)
+	where rnk = 1;
+12:37:30 From  shreyas  to  Ibridge 360(Direct Message):
+	which one sir?
+12:37:39 From  shreyas  to  Ibridge 360(Direct Message):
+	last one?
+12:39:09 From  Ibridge 360  to  Everyone:
+	6. find the city_name, city_population, pop_status
+	   pop_status = 'High' if the city_population is > avg population (across all rows)
+	   pop_status = 'Low' if the city_population is < avg population (across all records)
+12:40:54 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+	1----select city_name
+	from city c inner join state s
+	on c.state_id = s.state_id 
+	where city_population > (select avg(city_population)
+	                         from city c inner join state s
+	                         on c.state_id = s.state_id
+	                         where state_name = 'Karnataka')
+12:41:07 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	select country_name,state_name,city_name,city_population
+	from
+	(select country_name,state_name,city_name,city_population,dense_rank()over(partition by country_name,state_name order by city_population)r
+	from city ci
+	inner join state s on
+	ci.state_id = s.state_id
+	inner join country c on
+	s.country_id = c.country_id
+	)
+	where r = 1;
+12:41:24 From  Surya  to  Ibridge 360(Direct Message):
+	select city_name,city_population,
+	        case when city_population>(select avg(city_population) from city)  
+	             then 'High' else 'low'end status
+	from city;
+12:41:37 From  Ibridge 360  to  Nitin Ajay(Direct Message):
+	select country_name, t3.state_name, state_pop
+	from
+	(select country_name, state_name
+	from country t1 inner join state t2
+	on t1.country_id = t2.country_id) t3
+	inner join
+	(select state_name, sum(city_population) as state_pop
+	from state t1 inner join city t2
+	on t1.state_id = t2.state_id
+	group by state_name) t4
+	
+	on t3.state_name = t4.state_name;
+	
+	too complicated to get the answer
+12:42:01 From  Ibridge 360  to  Nitin Ajay(Direct Message):
+	follow the order in which you write / think about writing queries
+12:42:58 From  Ibridge 360  to  shreyas(Direct Message):
+	select country_name, state_name, city_name, city_population
+	from country c inner join state s
+	on c.country_id = s.country_id
+	inner join city cy on s.state_id = cy.state_id
+	where city_population in (select min(city_population) from city);
+	
+	this will give only the city which has the least population out of all the citites. read my question again
+12:43:56 From  Ibridge 360  to  SASIKUMAR(Direct Message):
+	any other way of writing this query -- it looks good
+12:44:52 From  shreyas  to  Ibridge 360(Direct Message):
+	select country_name, state_name, city_name, city_population
+	from country c inner join state s
+	on c.country_id = s.country_id
+	inner join city cy on s.state_id = cy.state_id
+	where city_population in (select min(city_population) from city)
+12:44:58 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- 5 display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state
+	SELECT COUNTRY_NAME,NVL(STATE_NAME,'NO STATE'),CITY_NAME,CITY_POPULATION
+	FROM COUNTRY C1 INNER JOIN STATE C2
+	ON C1.COUNTRY_ID = C2.COUNTRY_ID INNER JOIN CITY C3
+	ON C3.STATE_ID = C2.STATE_ID
+	WHERE (CITY_POPULATION,C2.STATE_ID) IN (SELECT MIN(CITY_POPULATION),C1.STATE_ID
+	                                        FROM CITY C1 INNER JOIN STATE C2
+	                                        ON C1.STATE_ID = C2.STATE_ID
+	                                        GROUP BY C1.STATE_ID );
+12:45:34 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select country_name, state_name, city_name, city_population
+	from country t1 inner join state t2 on t1.country_id = t2.country_id
+	inner join city t3 on t2.state_id = t3.state_id
+	where city_population in
+	(select min(city_population) as min_city_pop
+	from city t1 inner join state t2
+	on t1.state_id = t2.state_id
+	group by state_name);\
+12:45:40 From  shreyas  to  Ibridge 360(Direct Message):
+	select country_name, state_name, city_name, city_population
+	from country c inner join state s
+	on c.country_id = s.country_id
+	inner join city cy on s.state_id = cy.state_id
+	where city_population in (select min(city_population) from city)group by state_name;
+12:45:50 From  shreyas  to  Ibridge 360(Direct Message):
+	no wcorrect sir?
+12:46:24 From  Ibridge 360  to  shreyas(Direct Message):
+	nope, i see some syntax errors as well
+12:46:48 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	--display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state
+	select c.country_nm,s.state_nm,c.city_nm,c.city_population from(select c.country_nm,s.state_nm,c.city_nm,c.city_population,dense_rank over (partition by city_nm order by min(sum(city_population)) rnk
+	from country1 c inner join state1 s on c.country_id=s.country_id
+	inner join city1 ci on s.state_id=ci.state_id)
+	group by c.country_nm,c.city_nm,s.state_population);
+12:48:09 From  Ibridge 360  to  Tarak Mukherjee(Direct Message):
+	--display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state
+	select c.country_nm,s.state_nm,c.city_nm,c.city_population from(select c.country_nm,s.state_nm,c.city_nm,c.city_population,dense_rank over (partition by city_nm order by min(sum(city_population)) rnk
+	from country1 c inner join state1 s on c.country_id=s.country_id
+	inner join city1 ci on s.state_id=ci.state_id)
+	group by c.country_nm,c.city_nm,s.state_population);
+	
+	not sure about the query, why group by
+12:48:10 From  PRAVEEN KUMAR  to  Ibridge 360(Direct Message):
+	select city_name,city_population,(case when city_population > (select avg(city_population) from city) then 'high' else 'low' end) pop_status
+	from city;
+12:48:33 From  Ibridge 360  to  PRAVEEN KUMAR(Direct Message):
+	what is the type of query is this?
+12:49:17 From  Ibridge 360  to  Surya(Direct Message):
+	what is the type of query is this?
+12:49:30 From  Ibridge 360  to  Surya(Direct Message):
+	select city_name,city_population,
+	        case when city_population>(select avg(city_population) from city)  
+	             then 'High' else 'low'end status
+	from city;
+12:49:36 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	in first query there is avg instead of sum sir...
+	pls ignore the typo mistake
+12:50:05 From  Ibridge 360  to  Surya(Direct Message):
+	how many times this query executes
+	select avg(city_population) from city
+12:50:10 From  Ibridge 360  to  Surya(Direct Message):
+	any other way you can solve this
+12:50:11 From  MOHAN  to  Ibridge 360(Direct Message):
+	-- 6. find the city_name, city_population, pop_status
+	--   pop_status = 'High' if the city_population is > avg population (across all rows)
+	--   pop_status = 'Low' if the city_population is < avg population (across all records)
+	SELECT CITY_NAME,CITY_POPULATION,'HIGH' AS POP_SATAUS
+	FROM CITY 
+	WHERE CITY_POPULATION > (SELECT AVG(CITY_POPULATION)
+	FROM CITY)
+	
+	UNION ALL
+	
+	SELECT CITY_NAME,CITY_POPULATION,'LOW' AS POP_SATAUS
+	FROM CITY 
+	WHERE CITY_POPULATION < (SELECT AVG(CITY_POPULATION)
+	FROM CITY);
+12:50:12 From  SASIKUMAR  to  Ibridge 360(Direct Message):
+	select city_name,city_population,case when city_population > (select avg(city_population) from city) then 'High'
+	                                      when city_population < (select avg(city_population) from city) then 'Low'
+	                                 end "pop_status"
+	from city;
+12:50:33 From  shreyas  to  Ibridge 360(Direct Message):
+	ans6)---select city_name, city_population, 'High' as population_status
+	from city
+	where city_population >All (select avg(city_population) from city group by city_name)
+	union all
+	select city_name, city_population, 'Low' as population_status
+	from city
+	where city_population <All (select avg(city_population) from city group by city_name);
+12:50:39 From  Surya  to  Ibridge 360(Direct Message):
+	ok sir I use with clause give 40 seconds
+12:51:24 From  Nitin Ajay  to  Everyone:
+	5 sent
+12:51:28 From  Nitin Ajay  to  Everyone:
+	working on 6th
+12:51:29 From  MOHAN  to  Everyone:
+	6
+12:51:34 From  Tarak Mukherjee  to  Everyone:
+	4 queries sent
+12:51:35 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	5 QUERY
+12:51:36 From  Surya  to  Ibridge 360(Direct Message):
+	is it necessary to use analytical queries?(Instead of analytical)
+	
+	with
+	t as (select country_name,count(1)no_of_state from country c, state s where c.country_id = s.country_id group by country_name),
+	t1 as (select country_name,count(1)no_of_cities_in_cntry from country c, state s,city ci
+	        where c.country_id = s.country_id and s.state_id = ci.state_id group by country_name)
+	select * from t,t1 where t.country_name = t1.country_name;
+12:51:36 From  Ibridge 360  to  Everyone:
+	6 -- how many queries -- confidence on your queries (1..5)
+12:51:53 From  kinjal chowdhury  to  Ibridge 360(Direct Message):
+	--write a query to display the cities 
+	--which has more population than the average
+	--population of karnataka
+	---1.
+	select city_name
+	from city ct inner join state s
+	on ct.state_id=s.state_id
+	where ct.city_population>(select avg(city_population)
+	from city 
+	where city_name='karnataka'); 
+	----Display country_name, number_of_states, 
+	---number_of_cities
+	---2.
+	select country_name,count(s.country_id),count(ct.state_id)
+	from country c inner join state s 
+	on c.country_id=s.country_id
+	inner join city ct
+	on ct.state_id=s.state_id
+	group by country_name;
+	--3.
+	----Display country_name, state_name, state_population
+	select country_name,state_name,sum(city_population)over(partition by state_name)
+	 from country c inner join state s 
+	on c.country_id=s.country_id
+	inner join city ct
+	on ct.state_id=s.state_id;
+	---4.display states which has more population than Karnataka
+	select state_name
+	from city ct inner join state s
+	on ct.state_id=s.state_id
+	group by state_name
+	having sum(ct.city_population)>(select sum(ct.city_population)
+	fro
+12:52:02 From  Nitin Ajay  to  Everyone:
+	5 sent
+	1 left
+	confidence level 4.5
+12:52:03 From  sunil mali  to  Ibridge 360(Direct Message):
+	SELECT T1.STATE_COUNT,T2.CITY_COUNT,T3.COUNTRY_NAME
+	FROM (SELECT COUNT(STATE_NM) STATE_COUNT,COUNTRY_ID
+	FROM STATE
+	GROUP BY COUNTRY_ID) T1 ,(SELECT COUNT(CITY_NAME) CITY_COUNT,STATE_ID
+	FROM CITY
+	GROUP BY STATE_ID) T2,COUNTRY T3,STATE T4
+	WHERE T1.COUNTRY_ID=T3.COUNTRY_ID AND T2.STATE_ID=T4.STATE_ID
+12:52:08 From  lakshay  to  Ibridge 360(Direct Message):
+	select s.state_name,sum(city_population)
+	from state s inner join city c
+	on s.state_id=c.state_id
+	group by s.state_name
+	having sum(city_population)>(select sum(city_population)
+	from city c inner join state s
+	on s.state_id=c.state_id
+	where s.state_name='Karnataka');
+12:52:22 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+	1)
+	select city_name from city 
+	where city_population > (select avg(city_population) from city c,state s
+	where c.state_id=s.state_id and state_name='Karnataka');
+12:52:33 From  Ibridge 360  to  kinjal chowdhury(Direct Message):
+	----Display country_name, state_name, state_population
+	select country_name,state_name,sum(city_population)over(partition by state_name)
+	 from country c inner join state s 
+	on c.country_id=s.country_id
+	inner join city ct
+	on ct.state_id=s.state_id;
+	
+	do we need analytical queries to solve this?
+12:52:41 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+	2)
+	select c.country_name,count(s.state_id),count(ci.city_id)
+	from country c,state s,city ci
+	where c.country_id=s.state_id and s.state_id=ci.state_id 
+	group by c.country_name;
+12:52:51 From  SASIKUMAR  to  Everyone:
+	I completed all the questions ,it took time to understand the question .that is the only thing.
+12:52:56 From  Tarak Mukherjee  to  Everyone:
+	4 sent 2 left confidence level- 4
+12:52:57 From  Surya  to  Ibridge 360(Direct Message):
+	with t as(select avg(city_population)average from city)
+	select city_name,city_population,
+	        case when city_population> t.average
+	             then 'High' else 'low'end status
+	from city,t;
+12:53:06 From  Surya  to  Ibridge 360(Direct Message):
+	can I use like this sir?
+12:53:07 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+	3)
+	select c.country_name,s.state_name,sum(ci.city_population)
+	from country c,state s,city ci
+	where c.country_id=s.state_id and s.state_id=ci.state_id 
+	group by c.country_name,s.state_name;
+12:53:28 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+	4)
+	select state_name,sum(city_population) from
+	state state s,city ci
+	where s.state_id=ci.state_id
+	group by state_name
+	having sum(city_population)>(select sum(city_population)
+	                                state state s,city ci
+	                                where s.state_id=ci.state_id and state_name='Karnataka'
+	                                group by state_name);
+12:53:54 From  Khaidem Jimmy  to  Ibridge 360(Direct Message):
+	5)
+	select * from 
+	(select c.country_name.s.state_name,ci.city_name,densed_rank() over(partition by c.country_name order by ci.city_population asc)rn
+	from country c,state s,city ci
+	where c.country_id=s.country_id and s.state_id=ci.state_id
+	group by c.country_name.s.state_name,ci.city_name)
+	where rn=1;
+12:54:08 From  rajeshwari khot  to  Everyone:
+	--1)write a query to display the cities which has more population than the average population of karnataka
+	select state_name,sum(city_population)
+	from state s inner join city c
+	on s.state_id=c.city_id)T1
+	Inner join
+	select state_name,avg(city_population)
+	from state s inner join city c
+	on s.state_id=c.city_id)T2
+	on T1.state_name=T2.state_name
+	where sum(city_population)>(select avg(population) from city
+	where state_name='karnataka');
+	
+	
+	
+	
+	--2)Display country_name, number_of_states, number_of_cities
+	select country_name,count(state_name),count(city_name)
+	from country c 
+	join city cs
+	on cs.country_id=c.country_id
+	join state s
+	s.state_id=cs.state_id
+	--3)Display country_name, state_name, state_population
+	select country_name,state_name,sum(city_population)as state_population
+	from city c inner join state s
+	on s.state_id=c.state_id
+	group by country_name,state_name;
+	
+12:54:10 From  Khaidem Jimmy  to  Everyone:
+	5 sent working on 6
+12:54:19 From  MOHAN  to  Everyone:
+	6 QNS ==> 6 SOLVED . CONFIDENT LEVEL - 4.5
+12:54:21 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	select city_nm,city_population,case when city_population > (select avg(city_population) from city1) then 'High'
+	                                      when city_population < (select avg(city_population) from city1) then 'Low'
+	                                 end "pop_status"
+	from city1;
+12:54:24 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	6th query
+12:54:45 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	5 sent working 1
+12:54:53 From  Tarak Mukherjee  to  Everyone:
+	5 sent
+12:54:57 From  Tarak Mukherjee  to  Everyone:
+	working on 1
+12:55:25 From  Nitin Ajay  to  Ibridge 360(Direct Message):
+	select city_name, city_population, case when city_population > (select avg(city_population) from city) then 'High'
+	            when city_population < (select avg(city_population) from city) then 'Low' end as pop_status
+	from city;
+12:55:59 From  Nitin Ajay  to  Everyone:
+	6 sent
+	confidence level 4.5
+12:56:42 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+	--1)write a query to display the cities which has more population than the average population of karnataka
+	select state_name,sum(city_population)
+	from state s inner join city c
+	on s.state_id=c.city_id)T1
+	Inner join
+	select state_name,avg(city_population)
+	from state s inner join city c
+	on s.state_id=c.city_id)T2
+	on T1.state_name=T2.state_name
+	where sum(city_population)>(select avg(population) from city
+	where state_name='karnataka');
+	
+	--2)Display country_name, number_of_states, number_of_cities
+	select country_name,count(state_name),count(city_name)
+	from country c 
+	join city cs
+	on cs.country_id=c.country_id
+	join state s
+	s.state_id=cs.state_id
+	--3)Display country_name, state_name, state_population
+	select country_name,state_name,sum(city_population)as state_population
+	from city c inner join state s
+	on s.state_id=c.state_id
+	group by country_name,state_name;
+	
+12:56:46 From  sunil mali  to  Ibridge 360(Direct Message):
+	select country_name,state_nm,city_name,city_population
+	from(select country_name,state_nm,city_name,city_population,dense_rank() over(partition by state_nm order by city_population) rnk
+	from country a,state b,city c
+	where a.country_id=b.country_id and b.state_id=c.state_id)
+	where rnk = 1;
+12:56:54 From  Tarak Mukherjee  to  Everyone:
+	order- simple , subquery,joins,analytical query,derived query
+12:57:01 From  lakshay  to  Ibridge 360(Direct Message):
+	-----------------5----------------
+12:57:06 From  lakshay  to  Ibridge 360(Direct Message):
+	select country_name,state_name,city_name,city_population
+	from(select country_name,state_name,city_name,city_population,dense_rank() over(partition by state_name order by city_population) rank from city c inner join state s
+	on c.state_id = s.state_id inner join country c1
+	on c1.country_id  = s. country_id)
+	where rank = 1;
+	-------------------
+12:57:27 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+	--4)display states which has more population than Karnataka
+	select state_name,sum(city_population)as state_population
+	from city c inner join state s
+	on s.state_id=c.state_id
+	where sum(city_population)>  (select sum(city_population) from city
+	where state_name='karnataka')
+	group by state_name
+	
+	--5)display the country_name, state_name, city_name, city_population. Consider only the cities which has least population in each state
+	select * from (country_name,state_name,city_name,city_population
+	dense_rank() over (partition by state_name order by city_population asc) R1
+	from city c inner state s 
+	on  s.state_id=c.state_id
+	join country cs
+	on cs.country_id=s.country_id)A
+	where A.R1=1;
+	
+	
+	
+12:57:39 From  rajeshwari khot  to  Ibridge 360(Direct Message):
+	--6) find the city_name, city_population, pop_status pop_status = 'High' if the city_population is > avg population (across all rows) pop_status = 'Low' if the city_population is < avg population (across all records)
+	select city_name,city_population,avg(city_population)
+	case when city_population>avg(city_population) then 'High'
+	     when city_population<avg(city_population) then 'Low'
+	     end as 'pop_status'
+	     from city
+	     group by city_name,city_population;
+12:58:07 From  Nitin Ajay  to  Everyone:
+	simple
+	subquery
+	joins
+	aggregated
+	analytical
+	corelated
+	derived
+	set
+12:58:10 From  rajeshwari khot  to  Everyone:
+	analytical query
+12:59:09 From  Tarak Mukherjee  to  Everyone:
+	order- simple , subquery,aggregated,joins,analytical query,derived query,set,correlated
+12:59:21 From  lakshay  to  Ibridge 360(Direct Message):
+	-------------------------------6-------------------------
+	select city_name,city_population,case when city_population > (select avg(city_population) from city) then 'HIGH'
+	when city_population < (select avg(city_population) from city) then 'LOW' end "pop_status"
+	from city;
+12:59:42 From  MOHAN  to  Everyone:
+	1.simple , 2.sub ,3.corelated sub , 4.join , 5.aggregated , 6.derived ,7.set ,  8.analytic
+12:59:49 From  Ramya Madhu16  to  Ibridge 360(Direct Message):
+	simple, subquery, joins, aggregated, analytical, derived, corelated, set operater
+13:00:26 From  lakshay  to  Ibridge 360(Direct Message):
+	----------------------1------------------------
+	select city_name from city c inner join state s
+	on c.state_id = s.state_id  where city_population > (select avg(city_population)
+	from city c inner join state s
+	on c.state_id = s.state_id
+	where state_name = 'Karnataka')
+13:00:32 From  shreyas  to  Ibridge 360(Direct Message):
+	select city_name
+	from city
+	where city_population > (select avg(city_population) as city_sum
+	from state s inner join city c
+	on s.state_id = c.state_id
+	where state_name = 'Karnataka'
+	group by state_name)
+	;
+13:00:42 From  SASIKUMAR  to  Everyone:
+	1.simple query 2.sub query 3. joins 4.aggregated query 5. co related sub query  6.set operator 7.derived table  8.analytical query
+13:01:32 From  lakshay  to  Ibridge 360(Direct Message):
+	6 queries
+	confidence level:- 4
+13:03:25 From  shreyas  to  Ibridge 360(Direct Message):
+	quieries wrote -6
+13:03:38 From  shreyas  to  Ibridge 360(Direct Message):
+	confidence- 4
+13:03:56 From  shreyas  to  Ibridge 360(Direct Message):
+	total questions 6
+13:04:00 From  Tarak Mukherjee  to  Ibridge 360(Direct Message):
+	select country_name,count(state_name) over(partition by country_name), count(city_name) over(partition by country_name)
+	from city c inner join state s
+	on c.state_id = s.state_id inner join country c1
+	on c1.country_id  = s. country_id;
